@@ -63,7 +63,7 @@ namespace SampleApp.Controllers
                 }
                 else
                 {
-                    return UnprocessableEntity(employee);
+                    return new StatusCodeResult(StatusCodes.Status409Conflict);
                 }
             }
             catch (Exception ex)

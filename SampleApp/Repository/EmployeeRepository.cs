@@ -46,7 +46,7 @@ namespace SampleApp.Repository
         /// <returns>Employee model with the given Id.</returns>
         public async Task<EmployeeModel> GetEmployeeById(Guid id)
         {
-            Employee employee = await _context.Employees.AsNoTracking().Where(x => x.EmployeeGuid.Equals(id)).FirstOrDefaultAsync();
+            Employee employee = await _context.Employees.FirstOrDefaultAsync(x => x.EmployeeGuid.Equals(id));
             return _mapper.Map<EmployeeModel>(employee);
         }
 
@@ -85,7 +85,7 @@ namespace SampleApp.Repository
         public async Task<bool> RemoveEmployee(EmployeeModel employeeModel)
         {
             Employee employee = _mapper.Map<Employee>(employeeModel);
-            _context.Employees.Remove(employee);
+            var a = _context.Employees.Remove(employee);
             await _context.SaveChangesAsync();
             return true;
         }
