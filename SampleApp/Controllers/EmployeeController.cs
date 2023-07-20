@@ -17,109 +17,74 @@ namespace SampleApp.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<List<EmployeeModel>>> GetAllEmployees([FromQuery] EmployeeQueryParameters parameters)
+        public async Task<ActionResult<List<EmployeeModel>>> GetAllEmployeesAsync([FromQuery] EmployeeQueryParameters parameters)
         {
-            try
-            {
-                var employees = await _employeeRepository.GetAllEmployees(parameters);
-                return Ok(employees);
-            }
-            catch (Exception ex)
-            {
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
-            }
+            var employees = await _employeeRepository.GetAllEmployeesAsync(parameters);
+            return Ok(employees);
         }
 
         [HttpGet("{id:guid}")]
-        public async Task<ActionResult<List<EmployeeModel>>> GetEmployeeById(Guid id)
+        public async Task<ActionResult<List<EmployeeModel>>> GetEmployeeByIdAsync(Guid id)
         {
-            try
+            var employee = await _employeeRepository.GetEmployeeByIdAsync(id);
+            if (employee?.EmployeeGuid != null)
             {
-                var employee = await _employeeRepository.GetEmployeeById(id);
-                if (employee?.EmployeeGuid != null)
-                {
-                    return Ok(employee);
-                }
-                else
-                {
-                    return NotFound();
-                }
+                return Ok(employee);
             }
-            catch (Exception ex)
+            else
             {
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                return NotFound();
             }
         }
 
         [HttpPost]
-        public async Task<ActionResult<EmployeeModel>> AddEmployee([FromBody] EmployeeModel employee)
+        public async Task<ActionResult<EmployeeModel>> AddEmployeeAsync([FromBody] EmployeeModel employee)
         {
-            try
+            var newEmployee = await _employeeRepository.AddEmployeeAsync(employee);
+            if (newEmployee?.EmployeeGuid != null)
             {
-                var newEmployee = await _employeeRepository.AddEmployee(employee);
-                if (newEmployee?.EmployeeGuid != null)
-                {
-                    return CreatedAtAction(nameof(GetEmployeeById), new { id = newEmployee.EmployeeGuid }, newEmployee);
-                }
-                else
-                {
-                    return new StatusCodeResult(StatusCodes.Status409Conflict);
-                }
+                return CreatedAtAction(nameof(GetEmployeeByIdAsync), new { id = newEmployee.EmployeeGuid }, newEmployee);
             }
-            catch (Exception ex)
+            else
             {
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                return new StatusCodeResult(StatusCodes.Status409Conflict);
             }
         }
 
         [HttpPut]
-        public async Task<ActionResult<EmployeeModel>> UpdateEmployee([FromBody] EmployeeModel employee)
+        public async Task<ActionResult<EmployeeModel>> UpdateEmployeeAsync([FromBody] EmployeeModel employee)
         {
-            try
+            var currentEmployee = await _employeeRepository.GetEmployeeByIdAsync(employee.EmployeeGuid);
+            if (currentEmployee != null)
             {
-                var currentEmployee = await _employeeRepository.GetEmployeeById(employee.EmployeeGuid);
-                if (currentEmployee != null)
+                var updatedEmployee = await _employeeRepository.UpdateEmployeeAsync(employee);
+                if (updatedEmployee != null)
                 {
-                    var updatedEmployee = await _employeeRepository.UpdateEmployee(employee);
-                    if (updatedEmployee != null)
-                    {
-                        return Ok();
-                    }
-                    else
-                    {
-                        return UnprocessableEntity(employee);
-                    }
+                    return Ok();
                 }
                 else
                 {
-                    return NotFound();
+                    return UnprocessableEntity(employee);
                 }
             }
-            catch (Exception ex)
+            else
             {
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                return NotFound();
             }
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> RemoveEmployee(Guid id)
+        public async Task<ActionResult> RemoveEmployeeAsync(Guid id)
         {
-            try
+            var employee = await _employeeRepository.GetEmployeeByIdAsync(id);
+            if (employee != null)
             {
-                var employee = await _employeeRepository.GetEmployeeById(id);
-                if (employee != null)
-                {
-                    await _employeeRepository.RemoveEmployee(employee);
-                    return NoContent();
-                }
-                else
-                {
-                    return NotFound();
-                }
+                await _employeeRepository.RemoveEmployeeAsync(employee);
+                return NoContent();
             }
-            catch (Exception ex)
+            else
             {
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+                return NotFound();
             }
 
         }

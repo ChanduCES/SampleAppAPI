@@ -4,10 +4,10 @@ namespace SampleApp.Repository
 {
     public interface IEmployeeRepository
     {
-        Task<List<EmployeeModel>> GetAllEmployees(EmployeeQueryParameters parameters);
-        Task<EmployeeModel> GetEmployeeById(Guid id);
-        Task<EmployeeModel> AddEmployee(EmployeeModel employeeModel);
-        Task<EmployeeModel> UpdateEmployee(EmployeeModel employeeModel);
-        Task<bool> RemoveEmployee(EmployeeModel employee);
+        Task<List<EmployeeModel>> GetAllEmployeesAsync(EmployeeQueryParameters parameters);
+        Task<EmployeeModel> GetEmployeeByIdAsync(Guid id);
+        Task<EmployeeModel> AddEmployeeAsync(EmployeeModel employeeModel);
+        Task<EmployeeModel> UpdateEmployeeAsync(EmployeeModel employeeModel);
+        Task<bool> RemoveEmployeeAsync(EmployeeModel employee);
     }
 }

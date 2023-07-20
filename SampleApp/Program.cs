@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using SampleApp.Exceptions;
 using SampleApp.Models;
 using SampleApp.Repository;
 
@@ -7,7 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("EmployeeDB");
 builder.Services.AddDbContext<EmployeeContext>(x => x.UseSqlServer(connectionString));
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<ControllerExceptionFilter>();
+});
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddTransient<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddEndpointsApiExplorer();

@@ -24,7 +24,7 @@ namespace SampleApp.Repository
         /// Fetches the list of employees from the Employees table.
         /// </summary>
         /// <returns>List of employees.</returns>
-        public async Task<List<EmployeeModel>> GetAllEmployees(EmployeeQueryParameters parameters)
+        public async Task<List<EmployeeModel>> GetAllEmployeesAsync(EmployeeQueryParameters parameters)
         {
             List<Employee> employees = await _context.Employees.Where(x =>
                                                                     x.IsActive.Equals(parameters.Status) &&
@@ -44,7 +44,7 @@ namespace SampleApp.Repository
         /// </summary>
         /// <param name="id">Id for the employee</param>
         /// <returns>Employee model with the given Id.</returns>
-        public async Task<EmployeeModel> GetEmployeeById(Guid id)
+        public async Task<EmployeeModel> GetEmployeeByIdAsync(Guid id)
         {
             Employee employee = await _context.Employees.FirstOrDefaultAsync(x => x.EmployeeGuid.Equals(id));
             return _mapper.Map<EmployeeModel>(employee);
@@ -55,7 +55,7 @@ namespace SampleApp.Repository
         /// </summary>
         /// <param name="employeeModel">Employee to be added.</param>
         /// <returns>Employee model of the new Employee.</returns>
-        public async Task<EmployeeModel> AddEmployee(EmployeeModel employeeModel)
+        public async Task<EmployeeModel> AddEmployeeAsync(EmployeeModel employeeModel)
         {
             Employee employee = _mapper.Map<Employee>(employeeModel);
             var newEmployee = _context.Employees.Add(employee);
@@ -69,7 +69,7 @@ namespace SampleApp.Repository
         /// </summary>
         /// <param name="employeeModel">Employee to be added.</param>
         /// <returns>Employee model of the new Employee.</returns>
-        public async Task<EmployeeModel> UpdateEmployee(EmployeeModel employeeModel)
+        public async Task<EmployeeModel> UpdateEmployeeAsync(EmployeeModel employeeModel)
         {
             Employee employee = _mapper.Map<Employee>(employeeModel);
             _context.Employees.Update(employee);
@@ -82,7 +82,7 @@ namespace SampleApp.Repository
         /// </summary>
         /// <param name="employeeId">Employee ID of the employee to be removed.</param>
         /// <returns>True if employee is removed.</returns>
-        public async Task<bool> RemoveEmployee(EmployeeModel employeeModel)
+        public async Task<bool> RemoveEmployeeAsync(EmployeeModel employeeModel)
         {
             Employee employee = _mapper.Map<Employee>(employeeModel);
             var a = _context.Employees.Remove(employee);

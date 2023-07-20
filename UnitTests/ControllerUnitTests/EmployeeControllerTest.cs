@@ -31,10 +31,10 @@ namespace UnitTests.ControllerUnitTests
             var employeeController = CreateEmployeeController();
             var employees = _fixture.CreateMany<EmployeeModel>().ToList();
             var queryParameters = _fixture.Create<EmployeeQueryParameters>();
-            _employeeRepositoryMock.Setup(x => x.GetAllEmployees(queryParameters)).ReturnsAsync(employees);
+            _employeeRepositoryMock.Setup(x => x.GetAllEmployeesAsync(queryParameters)).ReturnsAsync(employees);
 
             //Act
-            var result = await employeeController.GetAllEmployees(queryParameters);
+            var result = await employeeController.GetAllEmployeesAsync(queryParameters);
 
             //Assert
             var employeeResult = result.Result as OkObjectResult;
@@ -50,10 +50,10 @@ namespace UnitTests.ControllerUnitTests
             var employees = _fixture.CreateMany<EmployeeModel>().ToList();
             var queryParameters = _fixture.Create<EmployeeQueryParameters>();
             var exception = _fixture.Create<Exception>();
-            _employeeRepositoryMock.Setup(x => x.GetAllEmployees(queryParameters)).Throws(exception);
+            _employeeRepositoryMock.Setup(x => x.GetAllEmployeesAsync(queryParameters)).Throws(exception);
 
             //Act
-            var result = await employeeController.GetAllEmployees(queryParameters);
+            var result = await employeeController.GetAllEmployeesAsync(queryParameters);
 
             //Assert
             var employeeResult = result.Result as StatusCodeResult;
@@ -67,10 +67,10 @@ namespace UnitTests.ControllerUnitTests
             var employeeController = CreateEmployeeController();
             var employeeId = _fixture.Create<Guid>();
             var employee = _fixture.Build<EmployeeModel>().With(x => x.EmployeeGuid, employeeId).Create();
-            _employeeRepositoryMock.Setup(x => x.GetEmployeeById(employeeId)).ReturnsAsync(employee);
+            _employeeRepositoryMock.Setup(x => x.GetEmployeeByIdAsync(employeeId)).ReturnsAsync(employee);
 
             //Act
-            var result = await employeeController.GetEmployeeById(employeeId);
+            var result = await employeeController.GetEmployeeByIdAsync(employeeId);
 
             //Assert
             var employeeResult = result.Result as OkObjectResult;
@@ -85,10 +85,10 @@ namespace UnitTests.ControllerUnitTests
             var employeeController = CreateEmployeeController();
             var employeeId = _fixture.Create<Guid>();
             var employee = _fixture.Build<EmployeeModel>().With(x => x.EmployeeGuid, employeeId).Create();
-            _employeeRepositoryMock.Setup(x => x.GetEmployeeById(employeeId)).ReturnsAsync((EmployeeModel)null);
+            _employeeRepositoryMock.Setup(x => x.GetEmployeeByIdAsync(employeeId)).ReturnsAsync((EmployeeModel)null);
 
             //Act
-            var result = await employeeController.GetEmployeeById(employeeId);
+            var result = await employeeController.GetEmployeeByIdAsync(employeeId);
 
             //Assert
             var employeeResult = result.Result as NotFoundResult;
@@ -103,10 +103,10 @@ namespace UnitTests.ControllerUnitTests
             var employeeId = _fixture.Create<Guid>();
             var employee = _fixture.Build<EmployeeModel>().With(x => x.EmployeeGuid, employeeId).Create();
             var exception = _fixture.Create<Exception>();
-            _employeeRepositoryMock.Setup(x => x.GetEmployeeById(employeeId)).Throws(exception);
+            _employeeRepositoryMock.Setup(x => x.GetEmployeeByIdAsync(employeeId)).Throws(exception);
 
             //Act
-            var result = await employeeController.GetEmployeeById(employeeId);
+            var result = await employeeController.GetEmployeeByIdAsync(employeeId);
 
             //Assert
             var employeeResult = result.Result as StatusCodeResult;
@@ -119,10 +119,10 @@ namespace UnitTests.ControllerUnitTests
             //Arrange
             var employeeController = CreateEmployeeController();
             var employee = _fixture.Create<EmployeeModel>();
-            _employeeRepositoryMock.Setup(x => x.AddEmployee(employee)).ReturnsAsync(employee);
+            _employeeRepositoryMock.Setup(x => x.AddEmployeeAsync(employee)).ReturnsAsync(employee);
 
             //Act
-            var result = await employeeController.AddEmployee(employee);
+            var result = await employeeController.AddEmployeeAsync(employee);
 
             //Assert
             var employeeResult = result.Result as CreatedAtActionResult;
@@ -136,10 +136,10 @@ namespace UnitTests.ControllerUnitTests
             //Arrange
             var employeeController = CreateEmployeeController();
             var employee = _fixture.Create<EmployeeModel>();
-            _employeeRepositoryMock.Setup(x => x.AddEmployee(employee)).ReturnsAsync((EmployeeModel)null);
+            _employeeRepositoryMock.Setup(x => x.AddEmployeeAsync(employee)).ReturnsAsync((EmployeeModel)null);
 
             //Act
-            var result = await employeeController.AddEmployee(employee);
+            var result = await employeeController.AddEmployeeAsync(employee);
 
             //Assert
             var employeeResult = result.Result as UnprocessableEntityObjectResult;
@@ -153,10 +153,10 @@ namespace UnitTests.ControllerUnitTests
             var employeeController = CreateEmployeeController();
             var employee = _fixture.Create<EmployeeModel>();
             var exception = _fixture.Create<Exception>();
-            _employeeRepositoryMock.Setup(x => x.AddEmployee(employee)).Throws(exception);
+            _employeeRepositoryMock.Setup(x => x.AddEmployeeAsync(employee)).Throws(exception);
 
             //Act
-            var result = await employeeController.AddEmployee(employee);
+            var result = await employeeController.AddEmployeeAsync(employee);
 
             //Assert
             var employeeResult = result.Result as StatusCodeResult;
@@ -171,11 +171,11 @@ namespace UnitTests.ControllerUnitTests
             var employeeId = _fixture.Create<Guid>();
             var employee = _fixture.Build<EmployeeModel>().With(x => x.EmployeeGuid, employeeId).Create();
             var updatedEmployee = _fixture.Build<EmployeeModel>().With(x => x.EmployeeGuid, employeeId).Create();
-            _employeeRepositoryMock.Setup(x => x.GetEmployeeById(employeeId)).ReturnsAsync(employee);
-            _employeeRepositoryMock.Setup(x => x.UpdateEmployee(employee)).ReturnsAsync(updatedEmployee);
+            _employeeRepositoryMock.Setup(x => x.GetEmployeeByIdAsync(employeeId)).ReturnsAsync(employee);
+            _employeeRepositoryMock.Setup(x => x.UpdateEmployeeAsync(employee)).ReturnsAsync(updatedEmployee);
 
             //Act
-            var result = await employeeController.UpdateEmployee(employee);
+            var result = await employeeController.UpdateEmployeeAsync(employee);
 
             //Assert
             var employeeResult = result.Result as OkResult;
@@ -189,10 +189,10 @@ namespace UnitTests.ControllerUnitTests
             var employeeController = CreateEmployeeController();
             var employeeId = _fixture.Create<Guid>();
             var employee = _fixture.Build<EmployeeModel>().With(x => x.EmployeeGuid, employeeId).Create();
-            _employeeRepositoryMock.Setup(x => x.GetEmployeeById(employeeId)).ReturnsAsync((EmployeeModel)null);
+            _employeeRepositoryMock.Setup(x => x.GetEmployeeByIdAsync(employeeId)).ReturnsAsync((EmployeeModel)null);
 
             //Act
-            var result = await employeeController.UpdateEmployee(employee);
+            var result = await employeeController.UpdateEmployeeAsync(employee);
 
             //Assert
             var employeeResult = result.Result as NotFoundResult;
@@ -206,11 +206,11 @@ namespace UnitTests.ControllerUnitTests
             var employeeController = CreateEmployeeController();
             var employeeId = _fixture.Create<Guid>();
             var employee = _fixture.Build<EmployeeModel>().With(x => x.EmployeeGuid, employeeId).Create();
-            _employeeRepositoryMock.Setup(x => x.GetEmployeeById(employeeId)).ReturnsAsync(employee);
-            _employeeRepositoryMock.Setup(x => x.UpdateEmployee(employee)).ReturnsAsync((EmployeeModel)null);
+            _employeeRepositoryMock.Setup(x => x.GetEmployeeByIdAsync(employeeId)).ReturnsAsync(employee);
+            _employeeRepositoryMock.Setup(x => x.UpdateEmployeeAsync(employee)).ReturnsAsync((EmployeeModel)null);
 
             //Act
-            var result = await employeeController.UpdateEmployee(employee);
+            var result = await employeeController.UpdateEmployeeAsync(employee);
 
             //Assert
             var employeeResult = result.Result as UnprocessableEntityObjectResult;
@@ -225,11 +225,11 @@ namespace UnitTests.ControllerUnitTests
             var employeeId = _fixture.Create<Guid>();
             var employee = _fixture.Build<EmployeeModel>().With(x => x.EmployeeGuid, employeeId).Create();
             var exception = _fixture.Create<Exception>();
-            _employeeRepositoryMock.Setup(x => x.GetEmployeeById(employeeId)).ReturnsAsync(employee);
-            _employeeRepositoryMock.Setup(x => x.UpdateEmployee(employee)).Throws(exception);
+            _employeeRepositoryMock.Setup(x => x.GetEmployeeByIdAsync(employeeId)).ReturnsAsync(employee);
+            _employeeRepositoryMock.Setup(x => x.UpdateEmployeeAsync(employee)).Throws(exception);
 
             //Act
-            var result = await employeeController.UpdateEmployee(employee);
+            var result = await employeeController.UpdateEmployeeAsync(employee);
 
             //Assert
             var employeeResult = result.Result as StatusCodeResult;
@@ -243,11 +243,11 @@ namespace UnitTests.ControllerUnitTests
             var employeeController = CreateEmployeeController();
             var employeeId = _fixture.Create<Guid>();
             var employee = _fixture.Build<EmployeeModel>().With(x => x.EmployeeGuid, employeeId).Create();
-            _employeeRepositoryMock.Setup(x => x.GetEmployeeById(employeeId)).ReturnsAsync(employee);
-            _employeeRepositoryMock.Setup(x => x.RemoveEmployee(employee)).ReturnsAsync(true);
+            _employeeRepositoryMock.Setup(x => x.GetEmployeeByIdAsync(employeeId)).ReturnsAsync(employee);
+            _employeeRepositoryMock.Setup(x => x.RemoveEmployeeAsync(employee)).ReturnsAsync(true);
 
             //Act
-            var result = await employeeController.RemoveEmployee(employeeId);
+            var result = await employeeController.RemoveEmployeeAsync(employeeId);
 
             //Assert
             var employeeResult = result as NoContentResult;
@@ -261,10 +261,10 @@ namespace UnitTests.ControllerUnitTests
             var employeeController = CreateEmployeeController();
             var employeeId = _fixture.Create<Guid>();
             var employee = _fixture.Build<EmployeeModel>().With(x => x.EmployeeGuid, employeeId).Create();
-            _employeeRepositoryMock.Setup(x => x.GetEmployeeById(employeeId)).ReturnsAsync((EmployeeModel)null);
+            _employeeRepositoryMock.Setup(x => x.GetEmployeeByIdAsync(employeeId)).ReturnsAsync((EmployeeModel)null);
 
             //Act
-            var result = await employeeController.RemoveEmployee(employeeId);
+            var result = await employeeController.RemoveEmployeeAsync(employeeId);
 
             //Assert
             var employeeResult = result as NotFoundResult;
@@ -279,11 +279,11 @@ namespace UnitTests.ControllerUnitTests
             var employeeId = _fixture.Create<Guid>();
             var employee = _fixture.Build<EmployeeModel>().With(x => x.EmployeeGuid, employeeId).Create();
             var exception = _fixture.Create<Exception>();
-            _employeeRepositoryMock.Setup(x => x.GetEmployeeById(employeeId)).ReturnsAsync(employee);
-            _employeeRepositoryMock.Setup(x => x.RemoveEmployee(employee)).Throws(exception);
+            _employeeRepositoryMock.Setup(x => x.GetEmployeeByIdAsync(employeeId)).ReturnsAsync(employee);
+            _employeeRepositoryMock.Setup(x => x.RemoveEmployeeAsync(employee)).Throws(exception);
 
             //Act
-            var result = await employeeController.RemoveEmployee(employeeId);
+            var result = await employeeController.RemoveEmployeeAsync(employeeId);
 
             //Assert
             var employeeResult = result as StatusCodeResult;
