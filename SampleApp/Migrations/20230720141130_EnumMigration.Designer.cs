@@ -12,8 +12,8 @@ using SampleApp.Models;
 namespace SampleApp.Migrations
 {
     [DbContext(typeof(EmployeeContext))]
-    [Migration("20230719132244_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20230720141130_EnumMigration")]
+    partial class EnumMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,9 +41,8 @@ namespace SampleApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
 
                     b.Property<double>("Salary")
                         .HasColumnType("float");

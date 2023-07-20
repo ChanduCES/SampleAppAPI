@@ -2,10 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using SampleApp.Data;
 using SampleApp.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SampleApp.Repository
 {
@@ -30,7 +26,6 @@ namespace SampleApp.Repository
                                                                     x.IsActive.Equals(parameters.Status) &&
                                                                     (string.IsNullOrWhiteSpace(parameters.SearchString) ||
                                                                     x.Name.Contains(parameters.SearchString) ||
-                                                                    x.Role.Contains(parameters.SearchString) ||
                                                                     x.Salary.ToString().Contains(parameters.SearchString)) &&
                                                                     (parameters.InitialDate == default || x.JoiningDate >= parameters.InitialDate) &&
                                                                     (parameters.FinalDate == default || x.JoiningDate <= parameters.FinalDate)).ToListAsync();

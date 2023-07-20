@@ -24,6 +24,7 @@ namespace SampleApp.Controllers
         }
 
         [HttpGet("{id:guid}")]
+        [ActionName(nameof(GetEmployeeByIdAsync))]
         public async Task<ActionResult<List<EmployeeModel>>> GetEmployeeByIdAsync(Guid id)
         {
             var employee = await _employeeRepository.GetEmployeeByIdAsync(id);

@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SampleApp.Enums;
 
 namespace SampleApp.Models
 {
@@ -12,14 +12,12 @@ namespace SampleApp.Models
         /// <summary>
         /// Full name of the Employee.
         /// </summary>
-        [Required]
         public string Name { get; set; }
 
         /// <summary>
         /// Role of the Employee.
         /// </summary>
-        [Required]
-        public string Role { get; set; }
+        public Roles? Role { get; set; }
 
         public DateTime JoiningDate { get; set; }
         public bool IsActive { get; set; }

@@ -2,6 +2,9 @@ using Microsoft.EntityFrameworkCore;
 using SampleApp.Exceptions;
 using SampleApp.Models;
 using SampleApp.Repository;
+using FluentValidation.AspNetCore;
+using FluentValidation;
+using SampleApp.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +15,9 @@ builder.Services.AddControllers(options =>
 {
     options.Filters.Add<ControllerExceptionFilter>();
 });
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddFluentValidationClientsideAdapters();
+builder.Services.AddValidatorsFromAssemblyContaining<EmployeeModelValidator>();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddTransient<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddEndpointsApiExplorer();
