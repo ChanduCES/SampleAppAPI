@@ -3,6 +3,8 @@ using SampleApp.Controllers;
 using SampleApp.Models;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
+using static Microsoft.AspNetCore.Http.StatusCodes;
+using SampleApp.Enums;
 
 namespace UnitTests.ControllerUnitTests
 {
@@ -42,24 +44,7 @@ namespace UnitTests.ControllerUnitTests
             employeeResult.Value.Should().BeEquivalentTo(employees);
         }
 
-        [Fact]
-        public async Task ShouldThrowExceptionandReturnStatus500_WhenGetAllEmployees_IsCalled()
-        {
-            //Arrange
-            var employeeController = CreateEmployeeController();
-            var employees = _fixture.CreateMany<EmployeeModel>().ToList();
-            var queryParameters = _fixture.Create<EmployeeQueryParameters>();
-            var exception = _fixture.Create<Exception>();
-            _employeeRepositoryMock.Setup(x => x.GetAllEmployeesAsync(queryParameters)).Throws(exception);
-
-            //Act
-            var result = await employeeController.GetAllEmployeesAsync(queryParameters);
-
-            //Assert
-            var employeeResult = result.Result as StatusCodeResult;
-            employeeResult?.StatusCode.Should().Be((int)HttpStatusCode.InternalServerError);
-        }
-
+        
         [Fact]
         public async Task ShouldGetEmployeeModel_WhenGetEmployeeById_IsCalled()
         {
@@ -92,27 +77,10 @@ namespace UnitTests.ControllerUnitTests
 
             //Assert
             var employeeResult = result.Result as NotFoundResult;
-            employeeResult?.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
+            employeeResult?.StatusCode.Should().Be(Status404NotFound);
         }
 
-        [Fact]
-        public async Task ShouldThrowInternalServerError_WhenGetEmployeeById_IsCalled()
-        {
-            //Arrange
-            var employeeController = CreateEmployeeController();
-            var employeeId = _fixture.Create<Guid>();
-            var employee = _fixture.Build<EmployeeModel>().With(x => x.EmployeeGuid, employeeId).Create();
-            var exception = _fixture.Create<Exception>();
-            _employeeRepositoryMock.Setup(x => x.GetEmployeeByIdAsync(employeeId)).Throws(exception);
-
-            //Act
-            var result = await employeeController.GetEmployeeByIdAsync(employeeId);
-
-            //Assert
-            var employeeResult = result.Result as StatusCodeResult;
-            employeeResult?.StatusCode.Should().Be((int)HttpStatusCode.InternalServerError);
-        }
-
+        
         [Fact]
         public async Task ShouldAddEmployee_WhenAddEmployee_IsCalled()
         {
@@ -143,26 +111,9 @@ namespace UnitTests.ControllerUnitTests
 
             //Assert
             var employeeResult = result.Result as UnprocessableEntityObjectResult;
-            employeeResult?.StatusCode.Should().Be((int)HttpStatusCode.UnprocessableEntity);
+            employeeResult?.StatusCode.Should().Be(Status422UnprocessableEntity);
         }
-
-        [Fact]
-        public async Task ShouldThrowInternalServerError_WhenAddEmployee_IsCalled()
-        {
-            //Arrange
-            var employeeController = CreateEmployeeController();
-            var employee = _fixture.Create<EmployeeModel>();
-            var exception = _fixture.Create<Exception>();
-            _employeeRepositoryMock.Setup(x => x.AddEmployeeAsync(employee)).Throws(exception);
-
-            //Act
-            var result = await employeeController.AddEmployeeAsync(employee);
-
-            //Assert
-            var employeeResult = result.Result as StatusCodeResult;
-            employeeResult?.StatusCode.Should().Be((int)HttpStatusCode.InternalServerError);
-        }
-
+                
         [Fact]
         public async Task ShouldUpdateEmployee_WhenUpdateEmployee_IsCalled()
         {
@@ -179,7 +130,7 @@ namespace UnitTests.ControllerUnitTests
 
             //Assert
             var employeeResult = result.Result as OkResult;
-            employeeResult?.StatusCode.Should().Be((int)HttpStatusCode.OK);
+            employeeResult?.StatusCode.Should().Be(Status200OK);
         }
 
         [Fact]
@@ -196,7 +147,7 @@ namespace UnitTests.ControllerUnitTests
 
             //Assert
             var employeeResult = result.Result as NotFoundResult;
-            employeeResult?.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
+            employeeResult?.StatusCode.Should().Be(Status404NotFound);
         }
 
         [Fact]
@@ -214,26 +165,7 @@ namespace UnitTests.ControllerUnitTests
 
             //Assert
             var employeeResult = result.Result as UnprocessableEntityObjectResult;
-            employeeResult?.StatusCode.Should().Be((int)HttpStatusCode.UnprocessableEntity);
-        }
-
-        [Fact]
-        public async Task ShouldThrowInternalServerError_WhenUpdateEmployee_IsCalled()
-        {
-            //Arrange
-            var employeeController = CreateEmployeeController();
-            var employeeId = _fixture.Create<Guid>();
-            var employee = _fixture.Build<EmployeeModel>().With(x => x.EmployeeGuid, employeeId).Create();
-            var exception = _fixture.Create<Exception>();
-            _employeeRepositoryMock.Setup(x => x.GetEmployeeByIdAsync(employeeId)).ReturnsAsync(employee);
-            _employeeRepositoryMock.Setup(x => x.UpdateEmployeeAsync(employee)).Throws(exception);
-
-            //Act
-            var result = await employeeController.UpdateEmployeeAsync(employee);
-
-            //Assert
-            var employeeResult = result.Result as StatusCodeResult;
-            employeeResult?.StatusCode.Should().Be((int)HttpStatusCode.InternalServerError);
+            employeeResult?.StatusCode.Should().Be(Status422UnprocessableEntity);
         }
 
         [Fact]
@@ -244,14 +176,14 @@ namespace UnitTests.ControllerUnitTests
             var employeeId = _fixture.Create<Guid>();
             var employee = _fixture.Build<EmployeeModel>().With(x => x.EmployeeGuid, employeeId).Create();
             _employeeRepositoryMock.Setup(x => x.GetEmployeeByIdAsync(employeeId)).ReturnsAsync(employee);
-            _employeeRepositoryMock.Setup(x => x.RemoveEmployeeAsync(employee)).ReturnsAsync(true);
+            _employeeRepositoryMock.Setup(x => x.RemoveEmployeeAsync(employee)).Returns(Task.CompletedTask);
 
             //Act
             var result = await employeeController.RemoveEmployeeAsync(employeeId);
 
             //Assert
             var employeeResult = result as NoContentResult;
-            employeeResult?.StatusCode.Should().Be((int)HttpStatusCode.NoContent);
+            employeeResult?.StatusCode.Should().Be(Status204NoContent);
         }
 
         [Fact]
@@ -268,26 +200,7 @@ namespace UnitTests.ControllerUnitTests
 
             //Assert
             var employeeResult = result as NotFoundResult;
-            employeeResult?.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
-        }
-
-        [Fact]
-        public async Task ShouldThrowInternalServerError_WhenRemoveEmployee_IsCalled()
-        {
-            //Arrange
-            var employeeController = CreateEmployeeController();
-            var employeeId = _fixture.Create<Guid>();
-            var employee = _fixture.Build<EmployeeModel>().With(x => x.EmployeeGuid, employeeId).Create();
-            var exception = _fixture.Create<Exception>();
-            _employeeRepositoryMock.Setup(x => x.GetEmployeeByIdAsync(employeeId)).ReturnsAsync(employee);
-            _employeeRepositoryMock.Setup(x => x.RemoveEmployeeAsync(employee)).Throws(exception);
-
-            //Act
-            var result = await employeeController.RemoveEmployeeAsync(employeeId);
-
-            //Assert
-            var employeeResult = result as StatusCodeResult;
-            employeeResult?.StatusCode.Should().Be((int)HttpStatusCode.InternalServerError);
+            employeeResult?.StatusCode.Should().Be(Status404NotFound);
         }
     }
 }

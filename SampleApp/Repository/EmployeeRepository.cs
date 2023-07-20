@@ -77,12 +77,11 @@ namespace SampleApp.Repository
         /// </summary>
         /// <param name="employeeId">Employee ID of the employee to be removed.</param>
         /// <returns>True if employee is removed.</returns>
-        public async Task<bool> RemoveEmployeeAsync(EmployeeModel employeeModel)
+        public async Task RemoveEmployeeAsync(EmployeeModel employeeModel)
         {
             Employee employee = _mapper.Map<Employee>(employeeModel);
             var a = _context.Employees.Remove(employee);
             await _context.SaveChangesAsync();
-            return true;
         }
     }
 }

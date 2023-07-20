@@ -8,6 +8,6 @@ namespace SampleApp.Repository
         Task<EmployeeModel> GetEmployeeByIdAsync(Guid id);
         Task<EmployeeModel> AddEmployeeAsync(EmployeeModel employeeModel);
         Task<EmployeeModel> UpdateEmployeeAsync(EmployeeModel employeeModel);
-        Task<bool> RemoveEmployeeAsync(EmployeeModel employee);
+        Task RemoveEmployeeAsync(EmployeeModel employee);
     }
 }

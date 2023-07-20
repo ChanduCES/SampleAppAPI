@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace SampleApp.Exceptions
 {
-    public class ControllerExceptionFilter : IExceptionFilter
+    public class ControllerExceptionFilter : ExceptionFilterAttribute
     {
-        public void OnException(ExceptionContext context)
+        public override void OnException(ExceptionContext context)
         {
             int statusCode;
             switch (context.Exception)
