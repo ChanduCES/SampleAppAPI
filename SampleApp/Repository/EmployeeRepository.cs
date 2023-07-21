@@ -22,15 +22,7 @@ namespace SampleApp.Repository
         /// <returns>List of employees.</returns>
         public async Task<List<EmployeeModel>> GetAllEmployeesAsync(EmployeeQueryParameters parameters)
         {
-            List<Employee> employees = await _context.Employees.Where(x =>
-                                                                    x.IsActive.Equals(parameters.Status) &&
-                                                                    (string.IsNullOrWhiteSpace(parameters.SearchString) ||
-                                                                    x.Name.Contains(parameters.SearchString) ||
-                                                                    x.Salary.ToString().Contains(parameters.SearchString)) &&
-                                                                    (parameters.InitialDate == default || x.JoiningDate >= parameters.InitialDate) &&
-                                                                    (parameters.FinalDate == default || x.JoiningDate <= parameters.FinalDate)).ToListAsync();
-
-            employees = employees.Skip((parameters.CurrentPage - 1) * parameters.PageSize).Take(parameters.PageSize)?.ToList();
+            List<Employee> employees = await _context.Employees.FromSql($"Usp_GetEmployees @pageNo ={parameters.CurrentPage}, @pageSize ={parameters.PageSize}, @searchText={parameters.SearchString}").ToListAsync();
             return _mapper.Map<List<EmployeeModel>>(employees);
         }
 
