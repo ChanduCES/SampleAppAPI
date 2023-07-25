@@ -1,10 +1,8 @@
 ﻿using SampleApp.Repository;
 using SampleApp.Controllers;
 using SampleApp.Models;
-using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using static Microsoft.AspNetCore.Http.StatusCodes;
-using SampleApp.Enums;
 
 namespace UnitTests.ControllerUnitTests
 {
