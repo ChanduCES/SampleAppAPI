@@ -12,8 +12,8 @@ using SampleApp.Models;
 namespace SampleApp.Migrations
 {
     [DbContext(typeof(EmployeeContext))]
-    [Migration("20230720141130_EnumMigration")]
-    partial class EnumMigration
+    [Migration("20230803141632_sp_getEmployees")]
+    partial class sp_getEmployees
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

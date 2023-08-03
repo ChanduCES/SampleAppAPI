@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SampleApp.Migrations
 {
     /// <inheritdoc />
-    public partial class EnumMigration : Migration
+    public partial class initial_setup_new : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -5,7 +5,7 @@
 namespace SampleApp.Migrations
 {
     /// <inheritdoc />
-    public partial class pagination : Migration
+    public partial class sp_getEmployees : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
