@@ -8,7 +8,7 @@ namespace SampleApp.Data
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid EmployeeGuid { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public Roles Role { get; set; }
         public DateTime JoiningDate { get; set; }

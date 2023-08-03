@@ -1,4 +1,5 @@
-﻿using SampleApp.Models;
+﻿using SampleApp.Data;
+using SampleApp.Models;
 
 namespace SampleApp.Services
 {

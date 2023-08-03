@@ -1,13 +1,14 @@
-﻿using SampleApp.Models;
+﻿using SampleApp.Data;
+using SampleApp.Models;
 
 namespace SampleApp.Repository
 {
     public interface IEmployeeRepository
     {
-        Task<List<EmployeeModel>> GetAllEmployeesAsync(EmployeeQueryParameters parameters);
-        Task<EmployeeModel> GetEmployeeByIdAsync(Guid id);
-        Task<EmployeeModel> AddEmployeeAsync(EmployeeModel employeeModel);
-        Task<EmployeeModel> UpdateEmployeeAsync(EmployeeModel employeeModel);
-        Task RemoveEmployeeAsync(EmployeeModel employee);
+        Task<List<Employee>> GetAllEmployeesAsync(EmployeeQueryParameters parameters);
+        Task<Employee> GetEmployeeByIdAsync(Guid id);
+        Task<Employee> AddEmployeeAsync(Employee employeeModel);
+        Task<Employee> UpdateEmployeeAsync(Employee employeeModel);
+        Task RemoveEmployeeAsync(Employee employee);
     }
 }
