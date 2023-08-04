@@ -19,7 +19,10 @@ namespace SampleApp.Models
                 .Build();
 
             var connectionString = configuration.GetConnectionString("EmployeeDB");
-            optionsBuilder.UseSqlServer(connectionString);
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer(connectionString);
+            }
         }
     }
 }

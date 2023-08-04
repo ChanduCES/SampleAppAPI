@@ -8,12 +8,10 @@ namespace SampleApp.Repository
     public class EmployeeRepository : IEmployeeRepository
     {
         private readonly EmployeeContext _context;
-        private readonly IMapper _mapper;
 
-        public EmployeeRepository(EmployeeContext context, IMapper mapper)
+        public EmployeeRepository(EmployeeContext context)
         {
             _context = context;
-            _mapper = mapper;
         }
 
         /// <summary>
