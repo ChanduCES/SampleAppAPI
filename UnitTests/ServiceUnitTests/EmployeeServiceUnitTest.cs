@@ -104,15 +104,13 @@ namespace UnitTests.ServiceUnitTests
         {
             //Arrange
             var employeeService = CreateEmployeeService();
-            var employee = _fixture.Create<Employee>();
-            var employeeModel = _mapper.Map<EmployeeModel>(employee);
-            _employeeRepositoryMock.Setup(x => x.RemoveEmployeeAsync(employee)).Returns(Task.CompletedTask);
+            _employeeRepositoryMock.Setup(x => x.RemoveEmployeeAsync(It.IsAny<Employee>())).Returns(Task.CompletedTask);
 
             //Act
-            await employeeService.RemoveEmployeeAsync(It.IsNotNull<EmployeeModel>());
+            await employeeService.RemoveEmployeeAsync(It.IsAny<EmployeeModel>());
 
             //Assert
-            //_employeeRepositoryMock.Verify(x=> x.RemoveEmployeeAsync(employee), Times.Once);
+            _employeeRepositoryMock.Verify(x=> x.RemoveEmployeeAsync(It.IsAny<Employee>()), Times.Once);
             _employeeRepositoryMock.VerifyNoOtherCalls();
         }
     }

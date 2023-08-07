@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SampleApp.Data;
 using SampleApp.Models;
+using System.Linq;
 
 namespace SampleApp.Repository
 {
@@ -20,7 +21,11 @@ namespace SampleApp.Repository
         /// <returns>List of employees.</returns>
         public async Task<List<Employee>> GetAllEmployeesAsync(EmployeeQueryParameters parameters)
         {
-            List<Employee> employees = await _context.Employees.FromSql($"Usp_GetEmployees @pageNo ={parameters.CurrentPage}, @pageSize ={parameters.PageSize}, @searchText={parameters.SearchString}").ToListAsync();
+            List<Employee> employees = await _context.Employees.OrderBy(x => x.Name)
+                                                               .Where(x => x.Name.Contains(parameters.SearchString))
+                                                               .Skip((parameters.CurrentPage -1) * parameters.PageSize)
+                                                               .Take(parameters.PageSize)
+                                                               .ToListAsync();
             return employees;
         }
 
