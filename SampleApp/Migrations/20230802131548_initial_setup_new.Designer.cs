@@ -12,8 +12,8 @@ using SampleApp.Models;
 namespace SampleApp.Migrations
 {
     [DbContext(typeof(EmployeeContext))]
-    [Migration("20230721133854_pagination")]
-    partial class pagination
+    [Migration("20230802131548_initial_setup_new")]
+    partial class initial_setup_new
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

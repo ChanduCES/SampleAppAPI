@@ -12,8 +12,8 @@ using SampleApp.Models;
 namespace SampleApp.Migrations
 {
     [DbContext(typeof(EmployeeContext))]
-    [Migration("20230720141130_EnumMigration")]
-    partial class EnumMigration
+    [Migration("20230803150946_id_field")]
+    partial class id_field
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,7 +27,7 @@ namespace SampleApp.Migrations
 
             modelBuilder.Entity("SampleApp.Data.Employee", b =>
                 {
-                    b.Property<Guid>("EmployeeGuid")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -47,7 +47,7 @@ namespace SampleApp.Migrations
                     b.Property<double>("Salary")
                         .HasColumnType("float");
 
-                    b.HasKey("EmployeeGuid");
+                    b.HasKey("Id");
 
                     b.ToTable("Employees");
                 });

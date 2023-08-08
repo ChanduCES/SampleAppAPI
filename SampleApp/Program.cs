@@ -5,37 +5,50 @@ using SampleApp.Repository;
 using FluentValidation.AspNetCore;
 using FluentValidation;
 using SampleApp.Validators;
+using SampleApp.Services;
 
-var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("EmployeeDB");
-builder.Services.AddDbContext<EmployeeContext>(x => x.UseSqlServer(connectionString));
-builder.Services.AddControllers(options =>
+public class Program
 {
-    options.Filters.Add<ControllerExceptionFilter>();
-});
-builder.Services.AddFluentValidationAutoValidation();
-builder.Services.AddFluentValidationClientsideAdapters();
-builder.Services.AddValidatorsFromAssemblyContaining<EmployeeModelValidator>();
-builder.Services.AddAutoMapper(typeof(Program).Assembly);
-builder.Services.AddTransient<IEmployeeRepository, EmployeeRepository>();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+    private static void Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
 
-var app = builder.Build();
+        // Add services to the container.
+        var connectionString = builder.Configuration.GetConnectionString("EmployeeDB");
+        builder.Services.AddDbContext<EmployeeContext>(x => x.UseSqlServer(connectionString));
+        builder.Services.AddControllers(options =>
+        {
+            options.Filters.Add<ControllerExceptionFilter>();
+        });
+        builder.Services.AddFluentValidationAutoValidation();
+        builder.Services.AddFluentValidationClientsideAdapters();
+        builder.Services.AddValidatorsFromAssemblyContaining<EmployeeModelValidator>();
+        builder.Services.AddAutoMapper(typeof(Program).Assembly);
+        builder.Services.AddTransient<IEmployeeRepository, EmployeeRepository>();
+        builder.Services.AddTransient<IEmployeeService, EmployeeService>();
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
+        var app = builder.Build();
+
+        // Configure the HTTP request pipeline.
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI();
+            app.UseDeveloperExceptionPage();
+        }
+        else
+        {
+            app.UseExceptionHandler("/error");
+        }
+
+        app.UseHttpsRedirection();
+
+        app.UseAuthorization();
+
+        app.MapControllers();
+
+        app.Run();
+    }
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();

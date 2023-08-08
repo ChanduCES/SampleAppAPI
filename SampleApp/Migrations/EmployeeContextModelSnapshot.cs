@@ -24,7 +24,7 @@ namespace SampleApp.Migrations
 
             modelBuilder.Entity("SampleApp.Data.Employee", b =>
                 {
-                    b.Property<Guid>("EmployeeGuid")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -44,7 +44,7 @@ namespace SampleApp.Migrations
                     b.Property<double>("Salary")
                         .HasColumnType("float");
 
-                    b.HasKey("EmployeeGuid");
+                    b.HasKey("Id");
 
                     b.ToTable("Employees");
                 });
